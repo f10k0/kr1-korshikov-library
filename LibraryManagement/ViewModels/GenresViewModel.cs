@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.Models;
@@ -16,7 +17,6 @@ namespace LibraryManagement.ViewModels
         public GenresViewModel(LibraryContext context)
         {
             _context = context;
-
             _context.Genres.Load();
             Genres = new ObservableCollection<Genre>(_context.Genres.Local);
 
@@ -43,30 +43,55 @@ namespace LibraryManagement.ViewModels
 
         private void Add(object param)
         {
-            var newGenre = new Genre();
+            var newGenre = new Genre
+            {
+                Name = "Новый жанр",
+                Description = ""
+            };
             _context.Genres.Add(newGenre);
             Genres.Add(newGenre);
             SelectedGenre = newGenre;
         }
 
-        private bool CanDelete(object param)
-        {
-            return SelectedGenre != null;
-        }
+        private bool CanDelete(object param) => SelectedGenre != null;
 
         private void Delete(object param)
         {
             if (SelectedGenre == null) return;
+
+            if (_context.Books.Any(b => b.GenreId == SelectedGenre.Id))
+            {
+                MessageBox.Show("Нельзя удалить жанр, который используется в книгах. Сначала удалите или измените книги.",
+                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             _context.Genres.Remove(SelectedGenre);
             Genres.Remove(SelectedGenre);
         }
 
         private void Save(object param)
         {
-            _context.SaveChanges();
-            System.Windows.MessageBox.Show("Сохранено!", "Успех",
-                System.Windows.MessageBoxButton.OK,
-                System.Windows.MessageBoxImage.Information);
+            foreach (var genre in Genres)
+            {
+                if (string.IsNullOrWhiteSpace(genre.Name))
+                {
+                    MessageBox.Show("У всех жанров должно быть заполнено Название.",
+                                    "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
+            try
+            {
+                _context.SaveChanges();
+                MessageBox.Show("Сохранено!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (DbUpdateException ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении: {ex.InnerException?.Message}",
+                                "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

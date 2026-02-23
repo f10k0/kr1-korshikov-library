@@ -7,7 +7,6 @@ C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-win
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\MainWindow.g.cs
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\App.g.cs
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\LibraryManagement_MarkupCompile.cache
-C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\LibraryManagement_MarkupCompile.lref
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\MainWindow.baml
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\LibraryManagement.g.resources
 C:\Users\HomePC\Desktop\LibraryManagement\LibraryManagement\obj\Debug\net7.0-windows\LibraryManagement.GeneratedMSBuildEditorConfig.editorconfig
